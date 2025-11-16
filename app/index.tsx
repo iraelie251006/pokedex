@@ -1,3 +1,4 @@
+import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
@@ -76,28 +77,39 @@ export default function Index() {
       }}
     >
       {pokemons.map(({name, image, imageBack, types}) => (
-        // @ts-ignore
-        <View 
+        <Link 
           key={name} 
-          style={{
-            backgroundColor: colorsByType[types[0].type.name] + 60,
-            padding: 20,
-            borderRadius: 20,
-          }}>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.type}>{types[0].type.name}</Text>
-          <View style={{flexDirection: "row"}}>
-            <Image
-             source={{uri: image}}
-             style={{width: 150, height: 150}}
-            />
-            <Image
-              source={{uri: imageBack}}
+          href={{
+            pathname: "/details",
+            params: {
+              name: name,
+              image: image,
+              imageBack: imageBack,
+              types: JSON.parse(JSON.stringify(types))
+            }
+          }}
+          // @ts-ignore
+            style={{
+              backgroundColor: colorsByType[types[0].type.name] + 60,
+              padding: 20,
+              borderRadius: 20,
+            }}>
+          <View>
+            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.type}>{types[0].type.name}</Text>
+            <View style={{flexDirection: "row"}}>
+              <Image
+              source={{uri: image}}
               style={{width: 150, height: 150}}
-            />
+              />
+              <Image
+                source={{uri: imageBack}}
+                style={{width: 150, height: 150}}
+              />
+            </View>
+            
           </View>
-          
-        </View>
+        </Link>
       ))}
     </ScrollView>
   );
